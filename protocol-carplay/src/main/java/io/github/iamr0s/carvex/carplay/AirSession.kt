@@ -561,6 +561,9 @@ class AirSession(private val context:Context,private val path:NetworkPath,privat
         if(mfi==null){
             initial["et"]=1
             log("EXPERIMENTAL et=1 (NONE) added to SETUP: mfi=null shared="+(shared!=null))
+            initial["timingProtocol"]="NTP"
+            initial["features"]=(metadata.effectiveFeatures?.toLong() ?: 417757137792L)
+            log("EXPERIMENTAL SETUP features="+initial["features"]+" timingProtocol=NTP")
         }
         log("AirPlay identity osBuildVersion="+initial["osBuildVersion"]+" androidBuild="+Build.ID+
             " audioAAD=4-12; compatibility profile, actual device osName=Android osVersion="+Build.VERSION.RELEASE)
