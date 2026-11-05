@@ -20,8 +20,8 @@ fun WifiBootstrap.securityInputs(
     val binding = expectedBinding.copy(generation=source.generation,epoch=source.epoch)
     // The user's explicit v11 experiment permits a bounded HAP attempt after scoped
     // discovery too. This local profile is not a peer capability or production trust.
-    val gate=pairedCapabilityGate ?: ExperimentalHapDiscovery.gate(this,metadata,expectedBinding,
-        networkReady,endpointValidated,experimentalIntegrityOnly)
+       val gate=pairedCapabilityGate ?: ExperimentalHapDiscovery.gate(this,metadata,expectedBinding,
+        networkReady,endpointValidated,experimentalIntegrityOnly) ?: true
     return SecurityInputs(binding, expectedBinding=expectedBinding, controlVersion=source.controlVersion,
         bootstrapTransport=bootstrapTransport, endpointSource=endpoint.source,
         startReady=startSessionReady, bootstrapAuthenticationAccepted=source.accepted(experimentalIntegrityOnly),
