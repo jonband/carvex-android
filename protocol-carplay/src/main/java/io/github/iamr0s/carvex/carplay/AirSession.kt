@@ -552,12 +552,16 @@ class AirSession(private val context:Context,private val path:NetworkPath,privat
         }
         events.authenticated(securityBinding)
         onDisplayNegotiation()
-        val initial=CarPlaySetupRequests.control(
+         val initial=CarPlaySetupRequests.control(
             deviceId=options.phoneMac,macAddress=options.phoneMac,name=options.carPlayName,
             model=Build.MODEL,osVersion=Build.VERSION.RELEASE,
             sessionUuid=java.util.UUID.randomUUID().toString(),
             timingPort=timing.takeIf{it.isBound&&!it.isClosed}?.localPort,
-            encryption=mfi?.let{CarPlaySetupRequests.Encryption(16,it.wrapped,it.iv)})
+            encryption=mfi?.let{CarPlaySetupRequests.Encryption(16,it.wrapped,it.iv)}).toMutableMap()
+        if(mfi==null){
+            initial["et"]=1
+            log("EXPERIMENTAL et=1 (NONE) added to SETUP: mfi=null shared="+(shared!=null))
+        }
         log("AirPlay identity osBuildVersion="+initial["osBuildVersion"]+" androidBuild="+Build.ID+
             " audioAAD=4-12; compatibility profile, actual device osName=Android osVersion="+Build.VERSION.RELEASE)
         log("Control SETUP profile=wireless-kind5 timingPort="+(initial["timingPort"]?:"absent")+
