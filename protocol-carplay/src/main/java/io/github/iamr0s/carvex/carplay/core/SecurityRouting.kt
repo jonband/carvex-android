@@ -78,8 +78,7 @@ object SecurityRouter {
             if (capabilities.requiresUnsupportedCuEntry)
                 securityFailure(SecurityReason.PAIRING_MECHANISM_UNSUPPORTED)
             if (capabilities.directCoreUtilsPairing != true) false
-           // else i.pairedCapabilityGate ?: securityFailure(SecurityReason.SECURITY_POLICY_UNRESOLVED)
-            else i.pairedCapabilityGate ?: true
+            else i.pairedCapabilityGate ?: securityFailure(SecurityReason.SECURITY_POLICY_UNRESOLVED)
         }
         return if (paired) SecurityRoute.PAIRED else SecurityRoute.SAP
     }
