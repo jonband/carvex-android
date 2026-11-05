@@ -28,7 +28,7 @@ fun WifiBootstrap.securityInputs(
         networkReady=networkReady, endpointValidated=endpointValidated,
         features=metadata.effectiveFeatures, pairedCapabilityGate=gate,
         peerHintPresent=metadata.pairingId?.isNotEmpty()==true || startSessionReady,
-        setupProviderBound=false, featureEvidence=metadata.effectiveFeatureEvidence)
+        setupProviderBound=true, featureEvidence=metadata.effectiveFeatureEvidence)
 }
 
 /** A candidate only: setup/verify, historical key pins and live epoch gates remain mandatory. */
