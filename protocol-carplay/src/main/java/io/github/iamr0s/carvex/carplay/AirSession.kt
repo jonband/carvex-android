@@ -560,10 +560,15 @@ class AirSession(private val context:Context,private val path:NetworkPath,privat
             encryption=mfi?.let{CarPlaySetupRequests.Encryption(16,it.wrapped,it.iv)}).toMutableMap()
         if(mfi==null){
             initial["et"]=1
-            log("EXPERIMENTAL et=1 (NONE) added to SETUP: mfi=null shared="+(shared!=null))
+            initial["ekey"]=ByteArray(16)
+            initial["eiv"]=ByteArray(16)
             initial["timingProtocol"]="NTP"
             initial["features"]=(metadata.effectiveFeatures?.toLong() ?: 417757137792L)
-            log("EXPERIMENTAL SETUP features="+initial["features"]+" timingProtocol=NTP")
+            initial["isScreenMirroringSession"]=true
+            initial["osBuildVersion"]="21A329"
+            initial["sourceVersion"]="320.17"
+            log("EXPERIMENTAL SETUP keys="+initial.keys.sorted().joinToString(",")+
+                " bodySizeEstimate features="+initial["features"]+" et=1 ekey/eiv=16B mirroring=true")
         }
         log("AirPlay identity osBuildVersion="+initial["osBuildVersion"]+" androidBuild="+Build.ID+
             " audioAAD=4-12; compatibility profile, actual device osName=Android osVersion="+Build.VERSION.RELEASE)
